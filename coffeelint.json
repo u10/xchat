@@ -1,0 +1,140 @@
+{
+  "max_line_length": {
+    "value": 160,
+    "level": "error",
+    "limitComments": true,
+    "message":"单行长度过长"
+  },
+  "indentation": {
+    "level": "error",
+    "value": 2,
+    "message":"代码缩进不规范"
+  },
+  "line_endings": {
+    "value": "unix",
+    "level": "error",
+    "message":"换行符不规范"
+  },
+  "arrow_spacing": {
+    "level": "warn",
+    "message":"函数标示符前后缺少空格"
+  },
+  "camel_case_classes": {
+    "level": "error",
+    "message":"camel_case_classes"
+  },
+  "coffeescript_error": {
+    "level": "error",
+    "message":"coffeescript_error"
+  },
+  "colon_assignment_spacing": {
+    "level": "warn",
+    "spacing": {
+      "left": 0,
+      "right": 1
+    },
+    "message":"colon_assignment_spacing"
+  },
+  "cyclomatic_complexity": {
+    "value": 10,
+    "level": "ignore",
+    "message":"cyclomatic_complexity"
+  },
+  "duplicate_key": {
+    "level": "error",
+    "message":"duplicate_key"
+  },
+  "empty_constructor_needs_parens": {
+    "level": "warn",
+    "message":"调用无参数的构造函数请添加括号"
+  },
+  "missing_fat_arrows": {
+    "level": "ignore",
+    "message":"missing_fat_arrows"
+  },
+  "newlines_after_classes": {
+    "value": 1,
+    "level": "warn",
+    "message":"newlines_after_classes"
+  },
+  "no_backticks": {
+    "level": "error",
+    "message":"no_backticks"
+  },
+  "no_debugger": {
+    "level": "warn",
+    "message":"no_debugger"
+  },
+  "no_empty_functions": {
+    "level": "error",
+    "message":"避免写空函数"
+  },
+  "no_empty_param_list": {
+    "level": "warn",
+    "message":"no_empty_param_list"
+  },
+  "no_implicit_braces": {
+    "level": "ignore",
+    "strict": true,
+    "message":"no_implicit_braces"
+  },
+  "no_implicit_parens": {
+    "strict": true,
+    "level": "ignore",
+    "message":"no_implicit_parens"
+  },
+  "no_interpolation_in_single_quotes": {
+    "level": "warn",
+    "message":"no_interpolation_in_single_quotes"
+  },
+  "no_plusplus": {
+    "level": "ignore",
+    "message":"no_plusplus"
+  },
+  "spacing_after_comma": {
+    "level": "warn",
+    "message":"请在逗号后添加空格"
+  },
+  "no_stand_alone_at": {
+    "level": "warn",
+    "message":"不要单独使用@符号，使用this"
+  },
+  "no_tabs": {
+    "level": "error",
+    "message":"no_tabs"
+  },
+  "no_throwing_strings": {
+    "level": "error",
+    "message":"no_throwing_strings"
+  },
+  "no_trailing_semicolons": {
+    "level": "error",
+    "message":"no_trailing_semicolons"
+  },
+  "no_trailing_whitespace": {
+    "level": "error",
+    "allowed_in_comments": false,
+    "allowed_in_empty_lines": true,
+    "message":"no_trailing_whitespace"
+  },
+  "no_unnecessary_double_quotes": {
+    "level": "warn",
+    "message":"没必要使用双引号，请使用单引号"
+  },
+  "no_unnecessary_fat_arrows": {
+    "level": "warn",
+    "message":"no_unnecessary_fat_arrows"
+  },
+  "non_empty_constructor_needs_parens": {
+    "level": "warn",
+    "message":"调用带参数的构造函数应该添加括号"
+  },
+  "prefer_english_operator": {
+    "level": "ignore",
+    "message":"prefer_english_operator"
+  },
+  "space_operators": {
+    "level": "warn",
+    "message":"操作符前后应该添加空格"
+  }
+}
