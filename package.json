@@ -1,9 +1,9 @@
 {
-  "name": "xchat",
+  "name": "XChat",
   "version": "1.0.0",
-  "description": "xchat",
-  "author": "sulj <vaniship@gmail.com>",
-  "private": true,
+  "description": "This is a IM WebApp use Vue.js",
+  "author": "vaniship <vaniship@gmail.com>",
+  "private": false,
   "scripts": {
     "coffee": "coffee -bc build lib",
     "dev": "node build/dev-server.js",

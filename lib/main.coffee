@@ -1,5 +1,3 @@
-console.log __dirname
-
 fs = require 'fs'
 _ = require 'lodash'
 http = require 'http'
@@ -32,4 +30,4 @@ server.listen args.port, args.addr, (err) ->
     console.log(err)
     return
 
-  console.log("xchat at http://#{args.addr}:#{args.port}")
+  console.log("XChat at http://#{args.addr}:#{args.port}")
