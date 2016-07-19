@@ -1,109 +1,140 @@
 <template>
-  <div id="top" class="split">
-    <div id="top-left" class="split split-horizontal">
-      <div class="split content">
-        <div class="pure-form pure-g">
-          <div class="pure-u-1">
-            <div v-if="isLogin" transition="vs-fade">
-              <div class="l-box">
-                <button class="pure-u-1-1 pure-button button-error" @click="logout">{{$t('UI.Logout')}}({{user.name}})
-                </button>
+  <div class="flex v-flex fill">
+    <!--<div>Menu</div>-->
+    <div class="flex-box">
+      <div class="flex-ctrl">
+        <div class="flex-content">
+          <div id="top" class="split">
+            <div id="top-left" class="split split-horizontal">
+              <div v-if="isLogin" transition="vs-fade" class="flex-box v-flex">
+                <div class="pure-form pure-g">
+                  <div class="pure-u-1">
+                    <div class="l-box">
+                      <button class="pure-u-1-1 pure-button button-error" @click="logout">
+                        {{$t('UI.Logout')}}({{user.name}})
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex-ctrl margin-s">
+                  <div class="flex-content pure-form pure-g">
+                    <div class="pure-u-1">
+                      <div class="l-box">
+                        <div class="pure-u-1 user-list">
+                          <template v-for="item in userList">
+                            <list-item :model="item" @click-item="selectUser">
+                              <li>{{item.name}}{{item.id===user.id?'('+$t('UI.Me')+')':''}}</li>
+                            </list-item>
+                          </template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="l-box">
-                <div class="pure-u-1 user-list">
-                  <template v-for="item in userList">
-                    <list-item :model="item" @click-item="selectUser">
-                      <li>{{item.name}}{{item.id===user.id?'('+$t('UI.Me')+')':''}}</li>
-                    </list-item>
-                  </template>
+              <div v-else class="pure-form pure-g" transition="vs-fade">
+                <div class="pure-u-1">
+                  <div class="l-box">
+                    <input class="pure-u-1" v-model="user.name" success-msg="Success" error-msg="Error"/>
+                  </div>
+                  <div class="l-box">
+                    <input class="pure-u-1" v-model="user.password" type="password" success-msg="Success"
+                           error-msg="Error"/>
+                  </div>
+                  <div class="l-box">
+                    <button class="pure-u-1 pure-button pure-button-primary" @click="login">{{$t('UI.Login')}}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-            <div v-else transition="vs-fade">
-              <div class="l-box">
-                <input class="pure-u-1" v-model="user.name" success-msg="Success" error-msg="Error"/>
+            <div id="top-right" class="split split-horizontal">
+              <div class="flex-box v-flex">
+                <div class="pure-form pure-g">
+                  <div class="pure-u-1">
+                    <div class="l-box">
+                      <button class="pure-u-1 pure-button button-secondary" @click="clearMessage">
+                        {{$t('UI.ClearMessage')}}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex-ctrl">
+                  <div class="flex-content pure-form pure-g msg-scroll">
+                    <div class="pure-u-1">
+                      <div class="pure-u-1 message-list">
+                        <div v-for="item in messageList" transition="vs-fade">
+                          <message-item :model="item"></message-item>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="l-box">
-                <input class="pure-u-1" v-model="user.password" type="password" success-msg="Success"
-                       error-msg="Error"/>
+            </div>
+          </div>
+          <div id="bottom" class="split">
+            <div class="flex v-flex fill">
+              <div class="pure-form">
+                <div class="pure-g">
+                  <div class="pure-u-1-5">
+                    <div class="l-box">
+                      <label class="pure-u-1">{{$t('UI.SendTo')}}</label>
+                    </div>
+                  </div>
+                  <div class="pure-u-3-5">
+                    <div class="l-box">
+                      <input class="pure-u-1" type="text" readonly v-model="roomName"/>
+                    </div>
+                  </div>
+                  <div class="pure-u-1-5">
+                    <div class="l-box">
+                      <button class="pure-u-1 pure-button button-secondary" @click="setBroadcast"
+                              :disabled="!isLogin">
+                        {{$t('UI.Broadcast')}}
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="l-box">
-                <button class="pure-u-1 pure-button pure-button-primary" @click="login">{{$t('UI.Login')}}</button>
+              <div class="flex-box">
+                <div class="flex-ctrl margin-s">
+                  <div class="flex-content pure-form pure-g">
+                    <drop-box class="fill" @drop-files="dropFiles">
+                      <textarea class="pure-input-1 text-message" v-model="textMessage"
+                                placeholder="{{$t('UI.DefaultText')}}"
+                                :disabled="!isLogin"></textarea>
+                    </drop-box>
+                  </div>
+                </div>
+              </div>
+              <div class="pure-form">
+                <div class="pure-g">
+                  <div class="pure-u-2-5 pure-u-md-1-5">
+                    <div class="l-box">
+                      <file class="pure-u-1" @change="sendFile">
+                        <button class="pure-u-1 pure-button button-secondary" :disabled="!isLogin">
+                          {{$t('UI.SendFile')}}
+                        </button>
+                      </file>
+                    </div>
+                  </div>
+                  <div class="pure-u-3-5 pure-u-md-4-5">
+                    <div class="l-box">
+                      <button class="pure-u-1 pure-button button-secondary" @click="sendText"
+                              :disabled="!isLogin">
+                        {{$t('UI.SendText')}}
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div id="top-right" class="split split-horizontal">
-      <div class="split content">
-        <div class="pure-form pure-g">
-          <div class="pure-u-1">
-            <div class="l-box">
-              <button class="pure-u-1 pure-button button-secondary" @click="clearMessage">{{$t('UI.ClearMessage')}}
-              </button>
-            </div>
-            <div class="pure-u-1 message-list" id="messageList">
-              <div v-for="item in messageList" transition="vs-fade">
-                <message-item :model="item"></message-item>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="bottom" class="split">
-    <div class="split content">
-      <div class="pure-form">
-        <div class="pure-g">
-          <div class="pure-u-1-5">
-            <div class="l-box">
-              <label class="pure-u-1">{{$t('UI.SendTo')}}</label>
-            </div>
-          </div>
-          <div class="pure-u-3-5">
-            <div class="l-box">
-              <input class="pure-u-1" type="text" readonly v-model="roomName"/>
-            </div>
-          </div>
-          <div class="pure-u-1-5">
-            <div class="l-box">
-              <button class="pure-u-1 pure-button button-secondary" @click="setBroadcast" :disabled="!isLogin">
-                {{$t('UI.Broadcast')}}
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="pure-g" style="height: 100%">
-          <div class="pure-u-1">
-            <div class="l-box">
-              <drop-box class="pure-u-1" @drop-files="dropFiles">
-          <textarea id="textMessage" class="pure-input-1 text-message" v-model="textMessage" placeholder="{{$t('UI.DefaultText')}}"
-                    :disabled="!isLogin"></textarea>
-              </drop-box>
-            </div>
-          </div>
-        </div>
-        <div class="pure-g">
-          <div class="pure-u-2-5 pure-u-md-1-5">
-            <div class="l-box">
-              <file class="pure-u-1" @change="sendFile">
-                <button class="pure-u-1 pure-button button-secondary" :disabled="!isLogin">{{$t('UI.SendFile')}}
-                </button>
-              </file>
-            </div>
-          </div>
-          <div class="pure-u-3-5 pure-u-md-4-5">
-            <div class="l-box">
-              <button class="pure-u-1 pure-button button-secondary" @click="sendText" :disabled="!isLogin">
-                {{$t('UI.SendText')}}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!--<div>State</div>-->
   </div>
 </template>
 
@@ -118,8 +149,6 @@
   import {user, room, userList, messageList} from './vuex/getters'
   import Split from 'split.js'
   import ws from './lib/ws'
-
-  import 'pure-css'
 
   export default {
     vuex: {
@@ -197,38 +226,23 @@
         window.localStorage.setItem('user.name', name)
       },
       messageList: function () {
-        const messageList = document.getElementById('messageList')
-        messageList.scrollTop += 9999
+        $('.msg-scroll').scrollTop(9999)
       }
     },
     ready () {
-      const $textMessage = $('.text-message')
-      const $messageList = $('.message-list')
-      const $userList = $('.user-list')
-      const $top = $('#top')
-      const $bottom = $('#bottom')
-      const relayout = function () {
-        $textMessage.height($bottom.height() - 110)
-        $messageList.height($top.height() - 45)
-        $userList.height($top.height() - 45)
-      }
-
       Split(['#top', '#bottom'], {
         sizes: [70, 30],
         direction: 'vertical',
         gutterSize: 6,
         cursor: 'row-resize',
-        onDrag: relayout
+        minSize: 200
       })
-
       Split(['#top-left', '#top-right'], {
         sizes: [25, 75],
         gutterSize: 6,
-        cursor: 'col-resize'
+        cursor: 'col-resize',
+        minSize: 150
       })
-
-      window.onresize = relayout
-      relayout()
     },
     components: {
       ListItem,
@@ -248,6 +262,12 @@
     padding: 8px;
     background-color: #F6F6F6;
     box-sizing: border-box;
+  }
+
+  textarea {
+    resize: none;
+    padding: 0;
+    margin: 0;
   }
 
   .split {
@@ -287,15 +307,39 @@
     height: 100%;
     float: left;
   }
-</style>
 
-<style scoped>
-  .user-list {
+  .flex {
+    display: -webkit-flex;
+  }
+
+  .v-flex {
+    flex-direction: column;
+  }
+
+  .flex-box {
+    display: -webkit-flex;
+    height: 100%;
+  }
+
+  .flex-box .flex-ctrl {
+    -webkit-flex: 1;
+    position: relative;
+  }
+
+  .flex-ctrl .flex-content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
     overflow: auto;
   }
 
-  .message-list {
-    overflow: auto;
+  .margin-s {
+    margin: 3px;
+  }
+
+  .fill {
+    width: 100%;
+    height: 100%;
   }
 
   .vs-fade-transition {

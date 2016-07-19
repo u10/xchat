@@ -1,3 +1,4 @@
+import 'pure-css'
 import './lib/polyfills'
 import Vue from 'vue'
 import Chat from './Chat'
