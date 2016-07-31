@@ -1,7 +1,5 @@
 <template>
-  <div @click="onItemClick">
-    <slot></slot>
-  </div>
+  <pre class="card-panel {{model.local?'local-msg':''}}">{{model.msg}}</pre>
 </template>
 
 <script>
@@ -9,10 +7,9 @@
     props: {
       model: Object
     },
-    computed: {},
     methods: {
-      onItemClick: function () {
-        this.$dispatch('click-item', this.model)
+      copyText: function (event) {
+        document.execCommand('copy')
       }
     }
   }
@@ -20,5 +17,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  pre {
+    white-space: pre-line;
+  }
 </style>
