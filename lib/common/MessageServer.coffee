@@ -53,7 +53,7 @@ module.exports = (options) ->
     .on 'file', (data = {}) ->
       sendTo socket,
         room: data.room
-        type: 'link'
+        type: 'LinkMessage'
         href: "download/#{socket.id}/#{data.fid}"
         msg: "#{decodeURIComponent(data.name)}(#{parseInt(data.size/1024/10.24)/100||'<0.01'}MB)"
       return
