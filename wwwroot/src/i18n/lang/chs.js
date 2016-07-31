@@ -12,6 +12,6 @@ export default {
     DefaultText: '文本消息'
   },
   Error: {
-    FileTypeNotSupported: '要发送文件类型不支持.'
+    FileTypeNotSupported: '发送失败(不支持该类型的文件).'
   }
 }
