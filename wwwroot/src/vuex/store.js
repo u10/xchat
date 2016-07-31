@@ -61,6 +61,7 @@ const mutations = {
   },
   [APPEND_MESSAGE] (state, data) {
     data.user = data.user || state.user
+    data.type = data.type || 'TextMessage'
     state.messageList.push(data)
   },
   [SET_SEND_TO] (state, data) {

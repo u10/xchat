@@ -22,9 +22,7 @@
                       <div class="l-box">
                         <div class="pure-u-1 user-list">
                           <template v-for="item in userList">
-                            <list-item :model="item" @click-item="selectUser">
-                              <li>{{item.name}}{{item.id===user.id?'('+$t('UI.Me')+')':''}}</li>
-                            </list-item>
+                            <li @click="selectUser(item)">{{item.name}}{{item.id===user.id?'('+$t('UI.Me')+')':''}}</li>
                           </template>
                         </div>
                       </div>
@@ -140,7 +138,6 @@
 
 <script>
   import $ from 'jquery'
-  import ListItem from './components/ListItem'
   import MessageItem from './components/MessageItem'
   import DropBox from './components/DropBox'
   import File from './components/File'
@@ -213,7 +210,7 @@
         }
         this.appendMessage({
           local: true,
-          type: 'error',
+          type: 'ErrorMessage',
           msg: this.$t('Error.FileTypeNotSupported')
         })
       },
@@ -245,7 +242,6 @@
       })
     },
     components: {
-      ListItem,
       MessageItem,
       DropBox,
       File

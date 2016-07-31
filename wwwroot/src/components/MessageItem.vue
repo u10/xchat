@@ -12,26 +12,17 @@
   <div class="pure-g">
     <div class="pure-u-1">
       <div class="l-box">
-        <template v-if="isText">
-          <pre class="card-panel {{model.local?'local-msg':''}}">{{model.msg}}</pre>
-        </template>
-        <template v-if="isLink">
-          <div class="card-panel">
-            <a :href="model.href" target="_blank">{{model.msg}}</a>
-          </div>
-        </template>
-        <template v-if="isProgress">
-          <div class="card-panel progress">{{model.msg}} {{model.progress}}%</div>
-        </template>
-        <template v-if="isError">
-          <div class="card-panel error">{{model.msg}}</div>
-        </template>
+        <component :is="model.type" :model="model"></component>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import TextMessage from './TextMessage'
+  import ErrorMessage from './ErrorMessage'
+  import LinkMessage from './LinkMessage'
+  import ProgressMessage from './ProgressMessage'
   import {user} from '../vuex/getters'
   export default {
     vuex: {
@@ -42,24 +33,11 @@
     props: {
       model: Object
     },
-    computed: {
-      isText: function () {
-        return this.model.type === undefined
-      },
-      isError: function () {
-        return this.model.type === 'error'
-      },
-      isLink: function () {
-        return this.model.type === 'link'
-      },
-      isProgress: function () {
-        return this.model.type === 'progress'
-      }
-    },
-    methods: {
-      copyText: function (event) {
-        document.execCommand('copy')
-      }
+    components: {
+      TextMessage,
+      ErrorMessage,
+      LinkMessage,
+      ProgressMessage
     }
   }
 </script>
@@ -103,9 +81,5 @@
   .local-msg {
     color: dimgray;
     background: #eee;
-  }
-
-  pre {
-    white-space: pre-line;
   }
 </style>

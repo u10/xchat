@@ -57,7 +57,7 @@ ws.on('broadcast', (data) => {
   }
   const progress = {
     local: true,
-    type: 'progress',
+    type: 'ProgressMessage',
     msg: `正在发送文件: ${file.name}`,
     progress: 0
   }
