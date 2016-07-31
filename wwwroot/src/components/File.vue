@@ -5,7 +5,7 @@
 <script>
   import $ from 'jquery'
   export default {
-    init: function () {
+    ready: function () {
       const self = this
       const $file = $('<input type="file" />').on('change', function () {
         self.$dispatch('change', $file[0].files)
@@ -25,7 +25,4 @@
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>
+<style></style>
