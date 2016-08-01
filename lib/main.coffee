@@ -5,7 +5,7 @@ express = require('express')
 favicon = require('serve-favicon')
 paths = require('./common/paths')(__dirname + '/..')
 BinaryServer = require './common/BinaryServer'
-MeServerServer = require './common/MessageServer'
+MessageServer = require './common/MessageServer'
 DownloadRouter = require './common/DownloadRouter'
 
 args = require('./common/parser').parseArgs()
@@ -17,7 +17,7 @@ rest.use favicon(paths.wwwroot('static', 'img', 'favicon.ico'))
 rest.use express.static(paths.wwwroot())
 
 # 通信用websocket
-ms = MeServerServer(server: server)
+ms = MessageServer(server: server)
 
 # 二进制数据传输服务
 bs = BinaryServer(ms, path: '/binary')
