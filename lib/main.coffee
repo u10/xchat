@@ -1,5 +1,4 @@
 fs = require 'fs'
-_ = require 'lodash'
 http = require 'http'
 express = require('express')
 favicon = require('serve-favicon')

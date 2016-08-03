@@ -2,25 +2,38 @@
 
 > This is a IM WebApp use Vue.js.
 
+## Install
+``` bash
+npm install -g vaniship/xchat
+
+xchat
+```
+
 ## Build
 
 ``` bash
-# install dependencies
+git clone https://github.com/vaniship/xchat.git
+
+cd xchat
+
 npm install
 
-# build for production with minification
 npm run build
-```
 
-## Run
-
-``` bash
 ./dist/bin/xchat
 ```
 
 ## Development
 
 ``` bash
+git clone https://github.com/vaniship/xchat.git
+
+cd xchat
+
+npm install
+
+npm run coffee
+
 # start server
 ./bin/xchat
 
