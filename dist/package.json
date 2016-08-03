@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "serve-favicon": "^2.2.1 ",
+    "express": "^4.13.3",
+    "argparse": "^1.0.2 ",
+    "lodash": "^4.13.1 ",
+    "uuid-js": "^0.7.5 ",
+    "binaryjs": "^0.2.1 ",
+    "socket.io": "^1.3.5 "
+  },
+  "version": "1.0.0",
+  "name": "xchat",
+  "description": "This is a IM WebApp use Vue.js",
+  "author": "vaniship <vaniship@gmail.com>"
+}
