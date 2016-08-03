@@ -11,7 +11,7 @@
     "dist/wwwroot"
   ],
   "bin": {
-    "hh": "./dist/bin/xchat"
+    "xchat": "./dist/bin/xchat"
   },
   "scripts": {
     "coffee": "coffee -bc build lib",
