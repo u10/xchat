@@ -2,8 +2,9 @@
   "name": "xchat",
   "version": "1.0.0",
   "description": "This is a IM WebApp use Vue.js",
-  "repository": "vaniship/xchat",
+  "repository": "u10/xchat",
   "author": "vaniship <vaniship@gmail.com>",
+  "license": "MIT",
   "private": false,
   "files": [
     "dist/bin",

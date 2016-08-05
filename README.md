@@ -4,7 +4,7 @@
 
 ## Install
 ``` bash
-npm install -g vaniship/xchat
+npm install -g u10/xchat
 
 xchat
 ```
@@ -12,7 +12,7 @@ xchat
 ## Build
 
 ``` bash
-git clone https://github.com/vaniship/xchat.git
+git clone https://github.com/u10/xchat.git
 
 cd xchat
 
@@ -26,7 +26,7 @@ npm run build
 ## Development
 
 ``` bash
-git clone https://github.com/vaniship/xchat.git
+git clone https://github.com/u10/xchat.git
 
 cd xchat
 
