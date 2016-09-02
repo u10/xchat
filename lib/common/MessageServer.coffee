@@ -54,7 +54,7 @@ module.exports = (options) ->
       sendTo socket,
         room: data.room
         type: 'LinkMessage'
-        href: "download/#{socket.id}/#{data.fid}"
+        href: "download/#{encodeURIComponent(socket.id)}/#{encodeURIComponent(data.fid)}"
         msg: "#{decodeURIComponent(data.name)}(#{parseInt(data.size/1024/10.24)/100||'<0.01'}MB)"
       return
     .on 'disconnect', ->
