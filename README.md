@@ -2,6 +2,8 @@
 
 > This is a IM WebApp use Vue.js.
 
+[online demo](http://vaniship-xchat.daoapp.io/)
+
 ## Install
 ``` bash
 npm install -g u10/xchat
