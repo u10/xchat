@@ -15,6 +15,9 @@ args = [
   ['-p', '--port']
   help: '指定监听端口。'
   defaultValue: 8888
+  ['-n', '--name']
+  help: '指定应用名称。'
+  defaultValue: ''
 ]
 
 parser.addArgument(args[i * 2], args[i * 2 + 1]) for i in [0...args.length / 2]

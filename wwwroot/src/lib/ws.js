@@ -4,7 +4,10 @@ import {BinaryClient} from 'binaryjs-client'
 import {APPEND_MESSAGE} from '../vuex/mutation-types'
 import store from '../vuex/store'
 
+const appName = `${window.location.pathname}`.replace(/\/$/, '')
+
 const ws = io(`ws://${window.location.host}`, {
+  path: `${appName}/socket.io`,
   autoConnect: false
 })
 
@@ -20,7 +23,7 @@ ws.on('broadcast', (data) => {
     return
   }
   const send = (callback) => {
-    const client = new BinaryClient(`ws://${window.location.host}/binary`)
+    const client = new BinaryClient(`ws://${window.location.host}${appName}/binary`)
     client.on('open', (stream) => {
       let chunkSize, fun, offset, seek
       stream = client.createStream({

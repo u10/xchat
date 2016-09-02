@@ -1,7 +1,7 @@
 socketIo = require 'socket.io'
 
 module.exports = (options) ->
-  ms = socketIo.listen(options.server)
+  ms = socketIo.listen(options.server, path: "#{options.appName}/socket.io")
   getUserList = -> (val.user for key, val of ms.sockets.connected)
 
   broadcastUserList = ->
