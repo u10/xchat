@@ -1,15 +1,16 @@
 {
   "dependencies": {
-    "serve-favicon": "^2.2.1 ",
+    "argparse": "^1.0.9",
+    "binaryjs": "^0.2.1",
     "express": "^4.13.3",
-    "argparse": "^1.0.2 ",
-    "lodash": "^4.13.1 ",
-    "uuid-js": "^0.7.5 ",
-    "binaryjs": "^0.2.1 ",
-    "socket.io": "^1.3.5 "
+    "lodash": "^4.16.4",
+    "moment": "^2.17.1",
+    "serve-favicon": "^2.3.0",
+    "socket.io": "^1.5.0",
+    "uuid-js": "^0.7.5"
   },
-  "version": "1.1.0",
+  "version": "2.0.0",
   "name": "xchat",
-  "description": "This is a IM WebApp use Vue.js",
-  "author": "vaniship <vaniship@gmail.com>"
+  "description": "A Vue.js project",
+  "author": "sulj <vaniship@gmail.com>"
 }
