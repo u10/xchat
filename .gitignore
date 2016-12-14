@@ -2,7 +2,7 @@
 .DS_Store
 build/build-server.js
 node_modules/
-dist/
+dist/node_modules/
 npm-debug.log
 server/**/*.js
 yarn.lock
