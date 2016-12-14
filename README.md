@@ -1,6 +1,6 @@
 # XChat
 
-> This is a IM WebApp use Vue.js.
+> This is a IM WebApp use Vue.js v2.0+.
 
 [online demo](http://vaniship-xchat.daoapp.io/)
 
@@ -22,7 +22,7 @@ npm install
 
 npm run build
 
-./dist/bin/xchat
+./dist/bin/start
 ```
 
 ## Development
@@ -37,7 +37,7 @@ npm install
 npm run coffee
 
 # start server
-./bin/xchat
+./bin/start
 
 # serve with hot reload at localhost:8080
 npm run dev
