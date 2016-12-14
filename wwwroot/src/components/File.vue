@@ -5,10 +5,10 @@
 <script>
   import $ from 'jquery'
   export default {
-    ready: function () {
+    mounted: function () {
       const self = this
       const $file = $('<input type="file" />').on('change', function () {
-        self.$dispatch('change', $file[0].files)
+        self.$emit('change', $file[0].files)
         $file.val('')
       })
       this.$file = $file

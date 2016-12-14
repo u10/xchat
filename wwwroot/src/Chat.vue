@@ -6,45 +6,9 @@
         <div class="flex-content">
           <div id="top" class="split">
             <div id="top-left" class="split split-horizontal">
-              <div v-if="isLogin" transition="vs-fade" class="flex-box v-flex">
-                <div class="pure-form pure-g">
-                  <div class="pure-u-1">
-                    <div class="l-box">
-                      <button class="pure-u-1-1 pure-button button-error" @click="logout">
-                        {{$t('UI.Logout')}}({{user.name}})
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex-ctrl margin-s">
-                  <div class="flex-content pure-form pure-g">
-                    <div class="pure-u-1">
-                      <div class="l-box">
-                        <div class="pure-u-1 user-list">
-                          <template v-for="item in userList">
-                            <li @click="selectUser(item)">{{item.name}}{{item.id===user.id?'('+$t('UI.Me')+')':''}}</li>
-                          </template>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div v-else class="pure-form pure-g" transition="vs-fade">
-                <div class="pure-u-1">
-                  <div class="l-box">
-                    <input class="pure-u-1" v-model="user.name" success-msg="Success" error-msg="Error"/>
-                  </div>
-                  <div class="l-box">
-                    <input class="pure-u-1" v-model="user.password" type="password" success-msg="Success"
-                           error-msg="Error"/>
-                  </div>
-                  <div class="l-box">
-                    <button class="pure-u-1 pure-button pure-button-primary" @click="login">{{$t('UI.Login')}}
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <transition name="vs-fade" mode="out-in">
+                <component :is="left" :model="user" @action="onAction"></component>
+              </transition>
             </div>
             <div id="top-right" class="split split-horizontal">
               <div class="flex-box v-flex">
@@ -61,9 +25,11 @@
                   <div class="flex-content pure-form pure-g msg-scroll">
                     <div class="pure-u-1">
                       <div class="pure-u-1 message-list">
-                        <div v-for="item in messageList" transition="vs-fade">
-                          <message-item :model="item"></message-item>
-                        </div>
+                        <transition-group name="vs-fade" tag="div">
+                          <div v-for="item in messages" :key="item.date">
+                            <message-item :model="item"></message-item>
+                          </div>
+                        </transition-group>
                       </div>
                     </div>
                   </div>
@@ -87,7 +53,7 @@
                   </div>
                   <div class="pure-u-1-5">
                     <div class="l-box">
-                      <button class="pure-u-1 pure-button button-secondary" @click="setBroadcast"
+                      <button class="pure-u-1 pure-button button-secondary" @click="onAction('set-broadcast')"
                               :disabled="!isLogin">
                         {{$t('UI.Broadcast')}}
                       </button>
@@ -100,7 +66,7 @@
                   <div class="flex-content pure-form pure-g">
                     <drop-box class="fill" @drop-files="dropFiles">
                       <textarea class="pure-input-1 text-message" v-model="textMessage"
-                                placeholder="{{$t('UI.DefaultText')}}"
+                                :placeholder="$t('UI.DefaultText')"
                                 :disabled="!isLogin"></textarea>
                     </drop-box>
                   </div>
@@ -141,33 +107,32 @@
   import MessageItem from './components/MessageItem'
   import DropBox from './components/DropBox'
   import File from './components/File'
+  import Login from './components/Login'
+  import UserList from './components/UserList'
 
-  import {setSendTo, clearMessage, appendMessage, clearUserList} from './vuex/actions'
-  import {user, room, userList, messageList} from './vuex/getters'
   import Split from 'split.js'
   import ws from './lib/ws'
+  import { mapGetters, mapActions } from 'vuex'
 
   export default {
-    vuex: {
-      getters: {
-        user,
-        room,
-        userList,
-        messageList
-      },
-      actions: {
-        setSendTo,
-        clearMessage,
-        appendMessage,
-        clearUserList
-      }
-    },
     data () {
       return {
         textMessage: ''
       }
     },
     computed: {
+      ...mapGetters([
+        'user',
+        'room',
+        'messages'
+      ]),
+      left () {
+        if (this.user.id) {
+          return 'UserList'
+        } else {
+          return 'Login'
+        }
+      },
       roomName () {
         if (this.room.name) {
           return this.room.name
@@ -176,23 +141,35 @@
         }
       },
       isLogin () {
-        return this.userList.length > 0
+        return this.user.list.length > 0
       }
     },
     methods: {
-      login () {
-        const user = this.user
-        ws.login(user, function (id) {
-          user.id = id
-        })
-      },
-      logout () {
-        ws.logout()
-        this.clearUserList()
-        this.setSendTo({})
-      },
-      setBroadcast () {
-        this.setSendTo({})
+      ...mapActions([
+        'setLoginData',
+        'setSendTo',
+        'clearMessage',
+        'appendMessage'
+      ]),
+      onAction (action, data) {
+        switch (action) {
+          case 'login':
+            const self = this
+            ws.login(data, function (data) {
+              self.setLoginData(data)
+            })
+            break
+          case 'logout':
+            ws.logout()
+            this.setLoginData({})
+            break
+          case 'select-user':
+            this.setSendTo(data)
+            break
+          case 'set-broadcast':
+            this.setSendTo({})
+            break
+        }
       },
       sendText () {
         ws.sendText(this.room, this.textMessage)
@@ -211,22 +188,22 @@
         this.appendMessage({
           local: true,
           type: 'ErrorMessage',
-          msg: this.$t('Error.FileTypeNotSupported')
+          msg: this.$t('Error.FileTypeNotSupported'),
+          date: new Date().getTime()
         })
-      },
-      selectUser (user) {
-        this.setSendTo(user)
       }
     },
     watch: {
       'user.name': function (name) {
         window.localStorage.setItem('user.name', name)
       },
-      messageList: function () {
-        $('.msg-scroll').scrollTop(9999)
+      messages: function () {
+        setTimeout(function () {
+          $('.msg-scroll').scrollTop(9999)
+        }, 500)
       }
     },
-    ready () {
+    mounted () {
       Split(['#top', '#bottom'], {
         sizes: [70, 30],
         direction: 'vertical',
@@ -244,7 +221,9 @@
     components: {
       MessageItem,
       DropBox,
-      File
+      File,
+      Login,
+      UserList
     }
   }
 </script>
@@ -338,17 +317,17 @@
     height: 100%;
   }
 
-  .vs-fade-transition {
-    transition: opacity 1.5s ease;
-    opacity: 100;
-  }
-
   .vs-fade-enter {
     opacity: 0;
   }
 
-  .vs-fade-leave {
-    display: none;
+  .vs-fade-enter-active {
+    transition: all .5s ease;
+  }
+
+  .vs-fade-leave-active {
+    transition: all .5s ease;
+    opacity: 0;
   }
 
   .l-box {

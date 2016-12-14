@@ -14,9 +14,9 @@ const ws = io(`ws://${window.location.host}`, {
 const files = {}
 
 ws.on('broadcast', (data) => {
-  store.dispatch('UPDATE_USER_LIST', data)
+  store.commit('UPDATE_USER_LIST', data)
 }).on('msg', (data) => {
-  store.dispatch('APPEND_MESSAGE', data)
+  store.commit('APPEND_MESSAGE', data)
 }).on('file', (data) => {
   const file = files[data.fid]
   if (!file || file.size === 0) {
@@ -62,9 +62,10 @@ ws.on('broadcast', (data) => {
     local: true,
     type: 'ProgressMessage',
     msg: `正在发送文件: ${file.name}`,
-    progress: 0
+    progress: 0,
+    date: new Date().getTime()
   }
-  store.dispatch(APPEND_MESSAGE, progress)
+  store.commit(APPEND_MESSAGE, progress)
   send((data) => {
     progress.progress = parseInt(data.tx * 100)
   })
@@ -75,7 +76,7 @@ export default {
     ws.once('connect', () => {
       ws.emit('login', user)
       ws.once('login', () => {
-        callback(ws.id)
+        callback({id: ws.id})
       })
     })
     ws.connect()
@@ -84,9 +85,11 @@ export default {
     ws.disconnect()
   },
   sendFile (room, file) {
-    store.dispatch(APPEND_MESSAGE, {
+    var date = new Date().getTime()
+    store.commit(APPEND_MESSAGE, {
       local: true,
-      msg: `发送文件: ${file.name}(${parseInt(file.size / 1024 / 10.24) / 100 || '<0.01'} MB)`
+      msg: `发送文件: ${file.name}(${parseInt(file.size / 1024 / 10.24) / 100 || '<0.01'} MB)`,
+      date: date
     })
     const fid = new Date().getTime()
     files[fid] = file
@@ -94,17 +97,21 @@ export default {
       fid: fid,
       room: room.id,
       name: file.name,
-      size: file.size
+      size: file.size,
+      date: date
     })
   },
   sendText (room, msg) {
-    store.dispatch(APPEND_MESSAGE, {
+    var date = new Date().getTime()
+    store.commit(APPEND_MESSAGE, {
       local: true,
-      msg: msg
+      msg: msg,
+      date: date
     })
     ws.emit('msg', {
       room: room.id,
-      msg: msg
+      msg: msg,
+      date: date
     })
   }
 }

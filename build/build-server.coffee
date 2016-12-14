@@ -1,5 +1,5 @@
 require 'shelljs/global'
-paths = require('../lib/common/paths')(__dirname + '/..')
+paths = require('../server/common/paths')(__dirname + '/..')
 webpack = require 'webpack'
 ora = require 'ora'
 fs = require 'fs'
@@ -20,20 +20,10 @@ pkg[k] = pkgSrc[k] for k in [
   'main'
 ]
 
-deps = [
-  'serve-favicon'
-  'express'
-  'argparse'
-  'lodash'
-  'uuid-js'
-  'binaryjs'
-  'socket.io'
-]
-
 dist = paths.root('dist', true)
 node_modules = dist('node_modules', true)
 rm '-rf', dist('bin')
-rm '-rf', dist('lib')
+rm '-rf', dist('server')
 rm '-rf', node_modules()
 mkdir '-p', node_modules()
 cp '-R', paths.root('bin'), dist('bin')
@@ -44,7 +34,7 @@ nodeModules =
   http: 'commonjs http'
   fs: 'commonjs fs'
 
-for mod in deps
+for mod of pkgSrc.dependencies
   pkg.dependencies[mod] = pkgSrc.dependencies[mod]
   nodeModules[mod] = 'commonjs ' + mod
   cp '-R', paths.root('node_modules', mod), node_modules(mod)
@@ -53,9 +43,9 @@ fs.writeFileSync dist('package.json'), JSON.stringify(pkg, null, '  ')
 
 webpack {
   entry:
-    main: paths.root('lib', 'main.coffee')
+    main: paths.root('server', 'main.coffee')
   output:
-    path: dist('lib')
+    path: dist('server')
     filename: '[name].js'
   node:
     __filename: false

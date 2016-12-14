@@ -1,5 +1,5 @@
 <template>
-  <pre class="card-panel {{model.local?'local-msg':''}}">{{model.msg}}</pre>
+  <pre v-once :class="'card-panel ' + (model.local?'local-msg':'')">{{model.msg}}</pre>
 </template>
 
 <script>

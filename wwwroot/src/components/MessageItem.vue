@@ -1,37 +1,46 @@
 <template>
-  <div class="pure-g">
-    <div class="pure-u-1 {{model.local?'local':''}}">
-      <div class="l-box">
-        <div class="msg-sender">
-          [{{model.user.id===user.id?$t('UI.Me'):model.user.name}}{{model.broadcast?'('+$t('UI.Broadcast')+')':''}}]
-          <span class="msg-time">{{* new Date().format('yyyy-MM-dd hh:mm:ss')}}</span>
+  <div>
+    <div class="pure-g">
+      <div v-once class="pure-u-1">
+        <div :class="'l-box ' + (model.local?'local':'remote')">
+          <div class="msg-sender">
+            [{{model.user.id===user.id?$t('UI.Me'):model.user.name}}{{model.broadcast?'('+$t('UI.Broadcast')+')':''}}]
+            <span class="msg-time">{{format(model.date)}}</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="pure-g">
-    <div class="pure-u-1">
-      <div class="l-box">
-        <component :is="model.type" :model="model"></component>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div :class="'l-box msg-box ' + (model.local?'local':'remote')">
+          <component :is="model.type" :model="model"></component>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import moment from 'moment'
   import TextMessage from './TextMessage'
   import ErrorMessage from './ErrorMessage'
   import LinkMessage from './LinkMessage'
   import ProgressMessage from './ProgressMessage'
-  import {user} from '../vuex/getters'
+  import { mapGetters } from 'vuex'
+
   export default {
-    vuex: {
-      getters: {
-        user
-      }
-    },
     props: {
       model: Object
+    },
+    computed: {
+      ...mapGetters([
+        'user'
+      ])
+    },
+    methods: {
+      format (date) {
+        return moment(date).format('YYYY-MM-DD HH:mm:ss')
+      }
     },
     components: {
       TextMessage,
@@ -48,28 +57,6 @@
     padding: 0.2em;
   }
 
-  .card-panel {
-    border-radius: 4px;
-    color: white;
-    background: lightgreen;
-    padding: 0.4em;
-    margin: 0.2em;
-  }
-
-  .error {
-    color: white;
-    background: lightcoral;
-  }
-
-  .progress {
-    color: white;
-    background: lightblue;
-  }
-
-  .local {
-    text-align: right;
-  }
-
   .msg-sender {
     color: grey;
   }
@@ -78,8 +65,27 @@
     font-size: 40%;
   }
 
+  .msg-box {
+    max-width: 90%;
+  }
+
+  .local {
+    float: right;
+  }
+
+  .remote {
+    float: left;
+  }
+
+  .card-panel {
+    border-radius: 8px;
+    color: black;
+    background: white;
+    padding: 0.4em;
+    margin: 0.2em;
+  }
+
   .local-msg {
-    color: dimgray;
-    background: #eee;
+    background: lightgreen;
   }
 </style>

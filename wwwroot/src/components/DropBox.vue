@@ -42,7 +42,7 @@
             }
             files.push(transfer.files[i])
           }
-          this.$dispatch('drop-files', files)
+          this.$emit('drop-files', files)
         }
       }
     }

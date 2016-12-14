@@ -1,5 +1,5 @@
 <template>
-  <div class="card-panel error">{{model.msg}}</div>
+  <div v-once :class="'card-panel ' + (model.local?'local-msg':'')">{{model.msg}}</div>
 </template>
 
 <script>
@@ -10,5 +10,10 @@
   }
 </script>
 
-<style></style>
+<style scoped>
+  .error {
+    color: white;
+    background: lightcoral;
+  }
+</style>
 

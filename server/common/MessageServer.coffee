@@ -56,6 +56,7 @@ module.exports = (options) ->
         type: 'LinkMessage'
         href: "download/#{encodeURIComponent(socket.id)}/#{encodeURIComponent(data.fid)}"
         msg: "#{decodeURIComponent(data.name)}(#{parseInt(data.size/1024/10.24)/100||'<0.01'}MB)"
+        date: data.date
       return
     .on 'disconnect', ->
       broadcastUserList()

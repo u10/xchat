@@ -1,5 +1,5 @@
 <template>
-  <div class="card-panel progress">{{model.msg}} {{model.progress}}%</div>
+  <div v-once :class="'card-panel progress ' + (model.local?'local-msg':'')">{{model.msg}} {{model.progress}}%</div>
 </template>
 
 <script>
@@ -10,4 +10,9 @@
   }
 </script>
 
-<style></style>
+<style scoped>
+  .progress {
+    color: white;
+    background: lightblue;
+  }
+</style>
