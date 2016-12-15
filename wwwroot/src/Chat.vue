@@ -198,9 +198,7 @@
         window.localStorage.setItem('user.name', name)
       },
       messages: function () {
-        setTimeout(function () {
-          $('.msg-scroll').scrollTop(9999)
-        }, 500)
+        $('.msg-scroll').animate({scrollTop: Number.MAX_VALUE}, 500)
       }
     },
     mounted () {
