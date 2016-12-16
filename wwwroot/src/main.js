@@ -5,7 +5,7 @@ import store from './vuex/store'
 import './i18n'
 
 /* eslint-disable no-new */
-window.vm = new Vue({
+new Vue({
   el: 'app',
   store,
   render: h => h(Chat)

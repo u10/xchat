@@ -3,6 +3,7 @@ import {BinaryClient} from 'binaryjs-client'
 
 import {APPEND_MESSAGE} from '../vuex/mutation-types'
 import store from '../vuex/store'
+import {t as $t} from 'vue'
 
 const appName = `${window.location.pathname}`.replace(/\/$/, '')
 
@@ -25,7 +26,7 @@ ws.on('broadcast', (data) => {
   const send = (callback) => {
     const client = new BinaryClient(`ws://${window.location.host}${appName}/binary`)
     client.on('open', (stream) => {
-      let chunkSize, fun, offset, seek
+      let chunkSize, offset
       stream = client.createStream({
         name: encodeURIComponent(file.name),
         size: file.size,
@@ -40,7 +41,7 @@ ws.on('broadcast', (data) => {
       })
       offset = 0
       chunkSize = 128 * 1024
-      fun = (e) => {
+      const fun = (e) => {
         stream.write(e.target.result)
         offset += chunkSize
         if (offset < file.size) {
@@ -49,7 +50,7 @@ ws.on('broadcast', (data) => {
           return stream.end()
         }
       }
-      seek = () => {
+      const seek = () => {
         const blob = file.slice(offset, offset + chunkSize)
         const reader = new window.FileReader()
         reader.onloadend = fun
@@ -61,7 +62,7 @@ ws.on('broadcast', (data) => {
   const progress = {
     local: true,
     type: 'ProgressMessage',
-    msg: `正在发送文件: ${file.name}`,
+    msg: `${$t('UI.SendingFile')}: ${file.name}`,
     progress: 0,
     date: new Date().getTime()
   }
@@ -88,7 +89,7 @@ export default {
     var date = new Date().getTime()
     store.commit(APPEND_MESSAGE, {
       local: true,
-      msg: `发送文件: ${file.name}(${parseInt(file.size / 1024 / 10.24) / 100 || '<0.01'} MB)`,
+      msg: `${$t('UI.SendFile')}: ${file.name}(${parseInt(file.size / 1024 / 10.24) / 100 || '<0.01'} MB)`,
       date: date
     })
     const fid = new Date().getTime()

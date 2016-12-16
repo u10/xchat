@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import moment from 'moment'
   import TextMessage from './TextMessage'
   import ErrorMessage from './ErrorMessage'

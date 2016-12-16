@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { SET_LOGIN_DATA, UPDATE_USER_LIST, CLEAR_MESSAGE, SET_SEND_TO, APPEND_MESSAGE } from './mutation-types'
-import {user, room, messages} from './getters'
-import {setLoginData, setSendTo, clearMessage, appendMessage, clearUserList} from './actions'
+import * as types from './mutation-types'
+import * as getters from './getters'
+import * as actions from './actions'
 
 Vue.use(Vuex)
 
@@ -51,38 +51,28 @@ export default new Vuex.Store({
     ],
     room: {}
   },
-  getters: {
-    user,
-    room,
-    messages
-  },
-  actions: {
-    setLoginData,
-    setSendTo,
-    clearMessage,
-    appendMessage,
-    clearUserList
-  },
+  getters: getters,
+  actions: actions,
   mutations: {
-    [SET_LOGIN_DATA] (state, data) {
+    [types.SET_LOGIN_DATA] (state, data) {
       state.user.id = data.id
       if (!data.id) {
         state.user.list = []
         state.room = {}
       }
     },
-    [UPDATE_USER_LIST] (state, data) {
+    [types.UPDATE_USER_LIST] (state, data) {
       state.user.list = data
     },
-    [CLEAR_MESSAGE] (state) {
+    [types.CLEAR_MESSAGE] (state) {
       state.messages = []
     },
-    [APPEND_MESSAGE] (state, data) {
+    [types.APPEND_MESSAGE] (state, data) {
       data.user = data.user || state.user
       data.type = data.type || 'TextMessage'
       state.messages.push(data)
     },
-    [SET_SEND_TO] (state, data) {
+    [types.SET_SEND_TO] (state, data) {
       state.room = data
     }
   }

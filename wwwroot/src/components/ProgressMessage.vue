@@ -2,7 +2,7 @@
   <div :class="'card-panel progress ' + (model.local?'local-msg':'')">{{model.msg}} {{model.progress}}%</div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   export default {
     props: {
       model: Object

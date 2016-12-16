@@ -43,12 +43,12 @@
                 <div class="pure-g">
                   <div class="pure-u-1-5">
                     <div class="l-box">
-                      <label class="pure-u-1">{{$t('UI.SendTo')}}</label>
+                      <label for="sendTo" class="pure-u-1">{{$t('UI.SendTo')}}</label>
                     </div>
                   </div>
                   <div class="pure-u-3-5">
                     <div class="l-box">
-                      <input class="pure-u-1" type="text" readonly v-model="roomName"/>
+                      <input id="sendTo" class="pure-u-1" type="text" readonly v-model="roomName"/>
                     </div>
                   </div>
                   <div class="pure-u-1-5">
@@ -65,7 +65,7 @@
                 <div class="flex-ctrl margin-s">
                   <div class="flex-content pure-form pure-g">
                     <drop-box class="fill" @drop-files="dropFiles">
-                      <textarea class="pure-input-1 text-message" v-model="textMessage"
+                      <textarea title="Message" class="pure-input-1 text-message" v-model="textMessage"
                                 :placeholder="$t('UI.DefaultText')"
                                 :disabled="!isLogin"></textarea>
                     </drop-box>
@@ -102,7 +102,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import $ from 'jquery'
   import MessageItem from './components/MessageItem'
   import DropBox from './components/DropBox'
@@ -110,6 +110,7 @@
   import Login from './components/Login'
   import UserList from './components/UserList'
 
+  // noinspection JSFileReferences
   import Split from 'split.js'
   import ws from './lib/ws'
   import { mapGetters, mapActions } from 'vuex'
@@ -260,10 +261,7 @@
   }
 
   .gutter {
-    background-color: transparent;
-
-    background-repeat: no-repeat;
-    background-position: 50%;
+    background: transparent no-repeat 50%;
   }
 
   .gutter.gutter-horizontal {
@@ -320,11 +318,11 @@
   }
 
   .vs-fade-enter-active {
-    transition: all .5s ease;
+    transition: all .35s ease;
   }
 
   .vs-fade-leave-active {
-    transition: all .5s ease;
+    transition: all .35s ease;
     opacity: 0;
   }
 

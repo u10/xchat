@@ -2,10 +2,10 @@
   <div class="pure-form pure-g">
     <div class="pure-u-1">
       <div class="l-box">
-        <input class="pure-u-1" v-model="model.name" success-msg="Success" error-msg="Error"/>
+        <input title="User Name" :placeholder="$t('UI.UserName')" class="pure-u-1" v-model="model.name" success-msg="Success" error-msg="Error"/>
       </div>
       <div class="l-box">
-        <input class="pure-u-1" v-model="password" type="password" success-msg="Success"
+        <input title="User Password" :placeholder="$t('UI.UserPassword')" class="pure-u-1" v-model="password" type="password" success-msg="Success"
                error-msg="Error"/>
       </div>
       <div class="l-box">
@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   export default {
     props: {
       model: Object

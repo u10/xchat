@@ -6,31 +6,31 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   export default {
     props: {
       model: Object
     },
     methods: {
-      dragenter (evevt) {
-        const transfer = evevt.dataTransfer
+      dragenter (event) {
+        const transfer = event.dataTransfer
         if (transfer.types.indexOf('Files') !== -1) {
-          evevt.stopPropagation()
-          evevt.preventDefault()
+          event.stopPropagation()
+          event.preventDefault()
         }
       },
-      dragover (evevt) {
-        const transfer = evevt.dataTransfer
+      dragover (event) {
+        const transfer = event.dataTransfer
         if (transfer.types.indexOf('Files') !== -1) {
-          evevt.stopPropagation()
-          evevt.preventDefault()
+          event.stopPropagation()
+          event.preventDefault()
         }
       },
-      drop (evevt) {
-        const transfer = evevt.dataTransfer
+      drop (event) {
+        const transfer = event.dataTransfer
         if (transfer.types.indexOf('Files') !== -1) {
-          evevt.stopPropagation()
-          evevt.preventDefault()
+          event.stopPropagation()
+          event.preventDefault()
           let files = []
           for (let i = 0, n = transfer.files.length; i < n; i++) {
             let webkitGetAsEntry

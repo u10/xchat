@@ -2,7 +2,7 @@
   <div @click="onClick"><slot></slot></div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import $ from 'jquery'
   export default {
     mounted: function () {

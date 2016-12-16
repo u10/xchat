@@ -1,14 +1,14 @@
 <template>
-  <pre v-once :class="'card-panel ' + (model.local?'local-msg':'')">{{model.msg}}</pre>
+  <pre v-once :class="'card-panel ' + (model.local?'local-msg':'')" @click="copyText">{{model.msg}}</pre>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   export default {
     props: {
       model: Object
     },
     methods: {
-      copyText: function (event) {
+      copyText () {
         document.execCommand('copy')
       }
     }

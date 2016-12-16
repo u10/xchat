@@ -2,7 +2,7 @@
   <div v-once :class="'card-panel ' + (model.local?'local-msg':'')">{{model.msg}}</div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   export default {
     props: {
       model: Object
