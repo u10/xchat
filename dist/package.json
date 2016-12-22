@@ -9,7 +9,7 @@
     "socket.io": "^1.5.0",
     "uuid-js": "^0.7.5"
   },
-  "version": "2.0.1",
+  "version": "2.0.2",
   "name": "xchat",
   "description": "A Vue.js project",
   "author": "sulj <vaniship@gmail.com>"
