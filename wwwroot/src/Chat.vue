@@ -128,11 +128,7 @@
         'messages'
       ]),
       left () {
-        if (this.user.id) {
-          return 'UserList'
-        } else {
-          return 'Login'
-        }
+        return this.isLogin ? 'UserList' : 'Login'
       },
       roomName () {
         if (this.room.name) {
@@ -142,12 +138,16 @@
         }
       },
       isLogin () {
-        return this.user.list.length > 0
+        for (let user of this.user.list) {
+          if (user.id === this.user.id) {
+            return true
+          }
+        }
+        return false
       }
     },
     methods: {
       ...mapActions([
-        'setLoginData',
         'setSendTo',
         'clearMessage',
         'appendMessage'
@@ -155,14 +155,10 @@
       onAction (action, data) {
         switch (action) {
           case 'login':
-            const self = this
-            ws.login(data, function (data) {
-              self.setLoginData(data)
-            })
+            ws.login(data)
             break
           case 'logout':
             ws.logout()
-            this.setLoginData({})
             break
           case 'select-user':
             this.setSendTo(data)

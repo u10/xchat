@@ -1,5 +1,5 @@
 <template>
-  <div v-once :class="'card-panel ' + (model.local?'local-msg':'')">{{model.msg}}</div>
+  <div v-once :class="'card-panel error ' + (model.local?'local-msg':'')">{{model.msg}}</div>
 </template>
 
 <script type="text/ecmascript-6">

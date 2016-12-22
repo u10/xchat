@@ -13,7 +13,7 @@
     <div class="pure-g">
       <div class="pure-u-1">
         <div :class="'l-box msg-box ' + (model.local?'local':'remote')">
-          <component :is="model.type" :model="model"></component>
+          <component :is="msgComponent" :model="model"></component>
         </div>
       </div>
     </div>
@@ -30,12 +30,25 @@
 
   export default {
     props: {
-      model: Object
+      model: Object,
+      components: {
+        type: Object,
+        default () {
+          return {}
+        }
+      }
     },
     computed: {
       ...mapGetters([
         'user'
-      ])
+      ]),
+      msgComponent () {
+        return this.components[this.model.type] || this.$options.components[this.model.type] || {
+          render (h) {
+            return h('div', 'Unknown Message Type')
+          }
+        }
+      }
     },
     methods: {
       format (date) {

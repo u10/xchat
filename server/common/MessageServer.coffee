@@ -1,11 +1,22 @@
+_ = require 'lodash'
 socketIo = require 'socket.io'
 
 module.exports = (options) ->
   ms = socketIo.listen(options.server, path: "#{options.appName}/socket.io")
-  getUserList = -> (val.user for key, val of ms.sockets.connected)
 
-  broadcastUserList = ->
+  getUserList = ->
+    userList = []
+    for key, socket of ms.sockets.connected
+      if socket.user
+        userList.push(socket.user)
+      else
+        socket.disconnect()
+    userList
+
+  broadcastUserList = _.debounce ->
     ms.emit('broadcast', getUserList())
+    return
+  , 200
 
   sendTo = (socket, data) ->
     data.user = socket.user

@@ -1,7 +1,7 @@
 import io from 'socket.io-client'
 import {BinaryClient} from 'binaryjs-client'
 
-import {APPEND_MESSAGE} from '../vuex/mutation-types'
+import {APPEND_MESSAGE, UPDATE_CONNECT_ID, UPDATE_USER_LIST} from '../vuex/mutation-types'
 import store from '../vuex/store'
 import {t as $t} from 'vue'
 
@@ -14,10 +14,14 @@ const ws = io(`ws://${window.location.host}`, {
 
 const files = {}
 
-ws.on('broadcast', (data) => {
-  store.commit('UPDATE_USER_LIST', data)
+ws.on('connect', () => {
+  store.commit(UPDATE_CONNECT_ID, ws.id)
+}).on('disconnect', () => {
+  store.commit(UPDATE_USER_LIST, [])
+}).on('broadcast', (data) => {
+  store.commit(UPDATE_USER_LIST, data)
 }).on('msg', (data) => {
-  store.commit('APPEND_MESSAGE', data)
+  store.commit(APPEND_MESSAGE, data)
 }).on('file', (data) => {
   const file = files[data.fid]
   if (!file || file.size === 0) {
@@ -73,14 +77,15 @@ ws.on('broadcast', (data) => {
 })
 
 export default {
-  login (user, callback) {
-    ws.once('connect', () => {
+  login (user) {
+    if (ws.connected) {
       ws.emit('login', user)
-      ws.once('login', () => {
-        callback({id: ws.id})
+    } else {
+      ws.once('connect', () => {
+        ws.emit('login', user)
       })
-    })
-    ws.connect()
+      ws.connect()
+    }
   },
   logout () {
     ws.disconnect()

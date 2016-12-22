@@ -6,6 +6,10 @@ import * as actions from './actions'
 
 Vue.use(Vuex)
 
+// const user = {
+//   name: 'test'
+// }
+
 export default new Vuex.Store({
   state: {
     user: {
@@ -15,37 +19,40 @@ export default new Vuex.Store({
     },
     messages: [
       // {
+      //   date: new Date().getTime(),
       //   broadcast: true,
-      //   user: {
-      //     name: 'test'
-      //   },
-      //   msg: '这是一个广播'
+      //   user: user,
+      //   msg: '这是一个广播',
+      //   type: 'TextMessage'
       // },
       // {
+      //   date: new Date().getTime(),
       //   local: true,
       //   user: user,
-      //   msg: '自己发出的消息'
+      //   msg: '自己发出的消息',
+      //   type: 'TextMessage'
       // },
       // {
+      //   date: new Date().getTime(),
       //   broadcast: true,
-      //   user: {
-      //     name: 'test2'
-      //   },
-      //   type: 'link',
+      //   user: user,
       //   href: '#',
-      //   msg: '这是一个连接'
+      //   msg: '这是一个连接',
+      //   type: 'LinkMessage'
       // },
       // {
+      //   date: new Date().getTime(),
       //   local: true,
       //   user: user,
-      //   type: 'progress',
+      //   type: 'ProgressMessage',
       //   msg: '进度消息',
       //   progress: 90
       // },
       // {
+      //   date: new Date().getTime(),
       //   local: true,
       //   user: user,
-      //   type: 'error',
+      //   type: 'ErrorMessage',
       //   msg: '这是一个错误消息'
       // }
     ],
@@ -54,13 +61,10 @@ export default new Vuex.Store({
   getters: getters,
   actions: actions,
   mutations: {
-    [types.SET_LOGIN_DATA] (state, data) {
-      state.user.id = data.id
-      if (!data.id) {
-        state.user.list = []
-        state.room = {}
-      }
+    [types.UPDATE_CONNECT_ID] (state, id) {
+      state.user.id = id
     },
+    [types.SET_LOGIN_DATA] (state, data) {},
     [types.UPDATE_USER_LIST] (state, data) {
       state.user.list = data
     },
